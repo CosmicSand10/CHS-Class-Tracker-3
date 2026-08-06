@@ -38,7 +38,6 @@ const STATE = {
 /*==================================================
     UI CACHE
 ==================================================*/
-
 const UI = {
 
     classTabs: document.getElementById("classTabs"),
@@ -65,7 +64,7 @@ const UI = {
 
     clock: document.getElementById("clock"),
 
-    modeIndicator: document.getElementById("modeIndicator")
+    modeIndicator: document.getElementById("modeIndicator"),
 
     teacherOverlay: document.getElementById("teacherOverlay"),
 
@@ -76,7 +75,6 @@ const UI = {
     monthlyReset: document.getElementById("monthlyReset"),
 
     lockButton: document.getElementById("lockButton")
-
 
 };
 
