@@ -434,3 +434,78 @@ function render(){
 
 render();
 window.addEventListener("beforeunload", saveState);
+/*==================================================
+    SCORE FUNCTIONS
+==================================================*/
+
+function changeScore(amount){
+
+    if(STATE.controlsLocked){
+
+        return;
+
+    }
+
+    const id = STATE.selectedClass;
+
+    STATE.lastChange = amount;
+
+    STATE.scores[id] += amount;
+
+    if(STATE.scores[id] < 0){
+
+        STATE.scores[id] = 0;
+
+    }
+
+    if(STATE.scores[id] > CONFIG.maxPoints){
+
+        STATE.scores[id] = CONFIG.maxPoints;
+
+    }
+
+    saveState();
+
+    render();
+
+}
+/*==================================================
+    POINT BUTTONS
+==================================================*/
+
+document.querySelectorAll(".pointButton").forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        changeScore(
+
+            Number(button.dataset.points)
+
+        );
+
+    });
+
+});
+/*==================================================
+    UNDO
+==================================================*/
+
+document.getElementById("undoButton")
+
+.addEventListener("click",()=>{
+
+    if(STATE.lastChange===null){
+
+        return;
+
+    }
+
+    changeScore(
+
+        -STATE.lastChange
+
+    );
+
+    STATE.lastChange=null;
+
+});
