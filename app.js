@@ -66,6 +66,16 @@ const UI = {
 
     modeIndicator: document.getElementById("modeIndicator"),
 
+    classView: document.getElementById("classView"),
+
+    statusView: document.getElementById("statusView"),
+
+    statusIcon: document.getElementById("statusIcon"),
+
+    statusTitle: document.getElementById("statusTitle"),
+
+    statusMessage: document.getElementById("statusMessage"),
+
     teacherOverlay: document.getElementById("teacherOverlay"),
 
     teacherButton: document.getElementById("teacherButton"),
@@ -236,6 +246,55 @@ function commit(){
 
 }
 
+/*==================================================
+    STATUS SCREEN
+==================================================*/
+
+function renderStatusScreen(){
+
+    const screens = {
+
+        before: {
+            icon: "☀️",
+            title: "GOOD MORNING!",
+            message: "Have an amazing day!"
+        },
+
+        passing: {
+            icon: "🚶",
+            title: "PASSING PERIOD",
+            message: "Welcome your next class!"
+        },
+
+        lunch: {
+            icon: "🍔",
+            title: "LUNCH",
+            message: "Enjoy your lunch!"
+        },
+
+        prep: {
+            icon: "📚",
+            title: "PREP PERIOD",
+            message: "Time to plan and recharge."
+        },
+
+        after: {
+            icon: "🌙",
+            title: "SCHOOL'S OUT",
+            message: "Have a great afternoon!"
+        }
+
+    };
+
+    const screen = screens[STATE.currentBlock];
+
+    if(!screen) return;
+
+    UI.statusIcon.textContent = screen.icon;
+    UI.statusTitle.textContent = screen.title;
+    UI.statusMessage.textContent = screen.message;
+
+}
 /*==================================================
     RENDER FUNCTIONS
 ==================================================*/
@@ -426,13 +485,26 @@ function render(){
 
     renderTabs();
 
-    renderDashboard();
-
     renderLeaderboard();
 
-    renderRewards();
-
     renderCompetition();
+
+    if(STATE.currentBlock === "class"){
+
+        UI.classView.classList.remove("hidden");
+        UI.statusView.classList.add("hidden");
+
+        renderDashboard();
+        renderRewards();
+
+    }else{
+
+        UI.classView.classList.add("hidden");
+        UI.statusView.classList.remove("hidden");
+
+        renderStatusScreen();
+
+    }
 
     updateSelectedButtons();
 
