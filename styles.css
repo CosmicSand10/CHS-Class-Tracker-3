@@ -1,0 +1,438 @@
+/*==================================================
+    CTE DASHBOARD PRO
+    Version 1.0
+==================================================*/
+
+
+/*==================================================
+    ROOT VARIABLES
+==================================================*/
+
+:root{
+
+    --background:#081C2E;
+
+    --panel:#112A44;
+
+    --panel-light:#183858;
+
+    --border:#2A587C;
+
+    --cyan:#18D8FF;
+
+    --cyan-dark:#0FA3C4;
+
+    --gold:#FFD54F;
+
+    --red:#F44336;
+
+    --green:#4CAF50;
+
+    --white:#F8FBFF;
+
+    --gray:#B8C7D6;
+
+    --radius:18px;
+
+    --shadow:
+        0 12px 28px rgba(0,0,0,.35);
+
+}
+
+
+/*==================================================
+    RESET
+==================================================*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    height:100%;
+
+}
+
+body{
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    font-family:"Orbitron",sans-serif;
+
+    background:var(--background);
+
+    color:var(--white);
+
+}
+
+
+
+/*==================================================
+    BLUEPRINT BACKGROUND
+==================================================*/
+
+#backgroundGrid{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-2;
+
+    background:
+
+        linear-gradient(
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        );
+
+    background-size:40px 40px;
+
+}
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-1;
+
+    background:
+
+        radial-gradient(
+            circle at top right,
+
+            rgba(24,216,255,.12),
+
+            transparent 35%
+
+        ),
+
+        radial-gradient(
+
+            circle at bottom left,
+
+            rgba(255,213,79,.08),
+
+            transparent 30%
+
+        );
+
+}
+
+
+
+/*==================================================
+    PAGE LAYOUT
+==================================================*/
+
+body{
+
+    display:grid;
+
+    grid-template-rows:
+
+        auto
+        auto
+        auto
+        1fr;
+
+}
+
+
+
+/*==================================================
+    HEADER
+==================================================*/
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:22px 42px;
+
+    border-bottom:2px solid rgba(255,255,255,.05);
+
+    background:rgba(0,0,0,.15);
+
+    backdrop-filter:blur(10px);
+
+}
+
+#headerLeft{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+#logo{
+
+    width:72px;
+
+    height:72px;
+
+    object-fit:contain;
+
+}
+
+#headerLeft h1{
+
+    font-size:2rem;
+
+    letter-spacing:2px;
+
+    font-weight:900;
+
+}
+
+#headerLeft p{
+
+    color:var(--gray);
+
+    margin-top:6px;
+
+    font-size:.9rem;
+
+}
+
+#headerRight{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+#clock{
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+    color:var(--cyan);
+
+}
+
+#modeIndicator{
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:rgba(76,175,80,.15);
+
+    color:#9FFF9F;
+
+    border:1px solid rgba(76,175,80,.4);
+
+    font-size:.9rem;
+
+}
+
+#teacherButton{
+
+    width:52px;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--panel);
+
+    color:white;
+
+    font-size:1.4rem;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#teacherButton:hover{
+
+    transform:rotate(25deg);
+
+    background:var(--cyan);
+
+    color:black;
+
+}
+
+
+
+/*==================================================
+    CONTROL BAR
+==================================================*/
+
+#controls{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:30px;
+
+    padding:26px 42px;
+
+    flex-wrap:wrap;
+
+}
+
+.controlGroup{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.controlGroup label{
+
+    color:var(--gray);
+
+    font-size:.8rem;
+
+    letter-spacing:2px;
+
+}
+
+.segmented{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.segmented button{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:var(--panel);
+
+    color:white;
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    border:2px solid transparent;
+
+}
+
+.segmented button:hover{
+
+    transform:translateY(-2px);
+
+    border-color:var(--cyan);
+
+}
+
+.segmented .selected{
+
+    background:linear-gradient(
+
+        90deg,
+
+        var(--cyan-dark),
+
+        var(--cyan)
+
+    );
+
+    color:black;
+
+    font-weight:700;
+
+}
+
+
+
+/*==================================================
+    CLASS TABS
+==================================================*/
+
+#classTabs{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:16px;
+
+    flex-wrap:wrap;
+
+    padding:0 42px 30px;
+
+}
+
+
+
+/*==================================================
+    MAIN GRID
+==================================================*/
+
+main{
+
+    display:grid;
+
+    grid-template-columns:
+
+        2fr
+
+        1fr;
+
+    gap:28px;
+
+    padding:
+
+        0
+
+        42px
+
+        42px;
+
+    align-items:start;
+
+}
