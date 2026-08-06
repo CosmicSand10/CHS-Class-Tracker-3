@@ -1139,3 +1139,36 @@ aside{
     }
 
 }
+.classTab{
+
+    padding:14px 24px;
+
+    border:2px solid var(--border);
+
+    border-radius:999px;
+
+    background:var(--panel);
+
+    color:white;
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.classTab.selected{
+
+    background:var(--cyan);
+
+    color:black;
+
+}
+
+.classTab:hover{
+
+    transform:translateY(-3px);
+
+}
