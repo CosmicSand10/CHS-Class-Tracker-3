@@ -763,3 +763,379 @@ small{
     font-size:.95rem;
 
 }
+/*==================================================
+    SIDEBAR
+==================================================*/
+
+aside{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.panel{
+
+    background:var(--panel);
+
+    border:2px solid var(--border);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+.panel:hover{
+
+    border-color:var(--cyan);
+
+    transform:translateY(-2px);
+
+}
+
+.panel h2{
+
+    color:var(--cyan);
+
+    margin-bottom:20px;
+
+    font-size:1.3rem;
+
+}
+
+
+/*==================================================
+    LEADERBOARD
+==================================================*/
+
+#leaderboard{
+
+    list-style:none;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+#leaderboard li{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 16px;
+
+    background:rgba(255,255,255,.04);
+
+    border-radius:12px;
+
+    font-size:1rem;
+
+}
+
+
+/*==================================================
+    REWARDS
+==================================================*/
+
+#rewardList{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.rewardItem{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 16px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.04);
+
+}
+
+.rewardUnlocked{
+
+    border-left:5px solid var(--green);
+
+}
+
+.rewardLocked{
+
+    border-left:5px solid var(--gray);
+
+}
+
+
+/*==================================================
+    COMPETITION STATS
+==================================================*/
+
+.stat{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.stat:last-child{
+
+    border-bottom:none;
+
+}
+
+.stat strong{
+
+    color:var(--cyan);
+
+    font-size:1.2rem;
+
+}
+
+
+/*==================================================
+    TEACHER MENU
+==================================================*/
+
+.hidden{
+
+    display:none !important;
+
+}
+
+#teacherOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    backdrop-filter:blur(8px);
+
+    z-index:1000;
+
+}
+
+#teacherPanel{
+
+    width:500px;
+
+    background:var(--panel);
+
+    border:2px solid var(--cyan);
+
+    border-radius:24px;
+
+    padding:35px;
+
+    box-shadow:0 0 40px rgba(24,216,255,.35);
+
+}
+
+#teacherPanel h2{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+#teacherPanel button{
+
+    width:100%;
+
+    height:58px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-size:1rem;
+
+    background:var(--panel-light);
+
+    color:white;
+
+    transition:.25s;
+
+}
+
+#teacherPanel button:hover{
+
+    background:var(--cyan);
+
+    color:black;
+
+}
+
+
+/*==================================================
+    SCROLLBAR
+==================================================*/
+
+::-webkit-scrollbar{
+
+    width:12px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--cyan);
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#07141f;
+
+}
+
+
+/*==================================================
+    RESPONSIVE
+==================================================*/
+
+@media(max-width:1200px){
+
+    main{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    header{
+
+        flex-direction:column;
+
+        gap:20px;
+
+    }
+
+    #controls{
+
+        justify-content:center;
+
+    }
+
+    #buttonGrid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    #undoButton{
+
+        grid-column:span 2;
+
+    }
+
+}
+
+
+/*==================================================
+    ANIMATIONS
+==================================================*/
+
+@keyframes glow{
+
+    0%{
+
+        box-shadow:0 0 15px rgba(24,216,255,.10);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 35px rgba(24,216,255,.30);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 15px rgba(24,216,255,.10);
+
+    }
+
+}
+
+#dashboardCard{
+
+    animation:glow 5s infinite;
+
+}
+
+.fade{
+
+    animation:fade .35s ease;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
