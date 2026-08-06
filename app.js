@@ -24,16 +24,9 @@ const STATE = {
 
     selectedClass: 0,
 
-    scores: [0,0,0,0,0,0],
+    currentBlock: null,
 
-    lastChange: null,
-
-    controlsLocked: false,
-
-    champions: []
-
-};
-
+    scores:[0,0,0,0,0,0],
 
 /*==================================================
     UI CACHE
@@ -651,6 +644,108 @@ UI.lockButton.addEventListener("click",()=>{
 });
 
 /*==================================================
+    TIME HELPERS
+==================================================*/
+
+function timeToMinutes(time){
+
+    const [h,m]=time.split(":").map(Number);
+
+    return h*60+m;
+
+}
+
+
+
+function currentMinutes(){
+
+    const now=new Date();
+
+    return now.getHours()*60+now.getMinutes();
+
+}
+
+/*==================================================
+    FIND CURRENT BLOCK
+==================================================*/
+
+function getCurrentBlock(){
+
+    const schedule =
+        CONFIG.schedules[STATE.schedule][STATE.day];
+
+    const now=currentMinutes();
+
+    for(const block of schedule){
+
+        const start=timeToMinutes(block.start);
+
+        const end=timeToMinutes(block.end);
+
+        if(now>=start && now<end){
+
+            return block;
+
+        }
+
+    }
+
+    return null;
+
+}
+/*==================================================
+    AUTO SCHEDULER
+==================================================*/
+
+function updateAutomaticClass(){
+
+    if(STATE.mode !== "auto") return;
+
+    const block = getCurrentBlock();
+
+    if(!block){
+
+        if(STATE.currentBlock !== "before"){
+
+            STATE.currentBlock = "before";
+
+            render();
+
+        }
+
+        return;
+
+    }
+
+    if(block.classId !== undefined){
+
+        if(
+            STATE.currentBlock !== "class" ||
+            STATE.selectedClass !== block.classId
+        ){
+
+            STATE.currentBlock = "class";
+
+            STATE.selectedClass = block.classId;
+
+            render();
+
+        }
+
+        return;
+
+    }
+
+    if(STATE.currentBlock !== block.type.toLowerCase()){
+
+        STATE.currentBlock = block.type.toLowerCase();
+
+        render();
+
+    }
+
+}
+/*==================================================
     INITIALIZE
 ==================================================*/
 
@@ -660,6 +755,10 @@ loadState();
 
 updateClock();
 
+updateAutomaticClass();
+
 setInterval(updateClock,1000);
+
+setInterval(updateAutomaticClass,30000);
 
 render();
