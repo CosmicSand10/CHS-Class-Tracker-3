@@ -26,7 +26,7 @@ const STATE = {
 
     currentBlock: null,
 
-    scores: [0,0,0,0,0,0],
+    scores:[0,0,0,0,0,0],
 
     lastChange: null,
 
