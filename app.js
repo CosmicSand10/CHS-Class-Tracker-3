@@ -1,14 +1,18 @@
 /*==================================================
     CTE DASHBOARD PRO
-    APP.JS
 ==================================================*/
+
+
+/*==================================================
+    STORAGE
+==================================================*/
+
+const STORAGE_KEY = "cte-dashboard-pro-v1";
 
 
 /*==================================================
     APPLICATION STATE
 ==================================================*/
-
-const STORAGE_KEY = "cte-dashboard-pro-v1";
 
 const STATE = {
 
@@ -29,7 +33,6 @@ const STATE = {
     champions: []
 
 };
-
 
 
 /*==================================================
@@ -67,7 +70,6 @@ const UI = {
 };
 
 
-
 /*==================================================
     STORAGE
 ==================================================*/
@@ -85,7 +87,6 @@ function saveState(){
 }
 
 
-
 function loadState(){
 
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -96,33 +97,16 @@ function loadState(){
 
     }
 
-    Object.assign(
+    const data = JSON.parse(saved);
 
-        STATE,
-
-        JSON.parse(saved)
-
-    );
+    Object.assign(STATE,data);
 
 }
-
 
 
 /*==================================================
     HELPERS
 ==================================================*/
-
-function currentClasses(){
-
-    return CONFIG.classes.filter(
-
-        c=>c.day===STATE.day
-
-    );
-
-}
-
-
 
 function currentClass(){
 
@@ -135,6 +119,16 @@ function currentClass(){
 }
 
 
+function currentClasses(){
+
+    return CONFIG.classes.filter(
+
+        c=>c.day===STATE.day
+
+    );
+
+}
+
 
 function currentScore(){
 
@@ -142,6 +136,22 @@ function currentScore(){
 
 }
 
+
+function leaderboard(){
+
+    return CONFIG.classes
+
+        .map(c=>({
+
+            ...c,
+
+            score:STATE.scores[c.id]
+
+        }))
+
+        .sort((a,b)=>b.score-a.score);
+
+}
 
 
 function totalPoints(){
@@ -157,27 +167,34 @@ function totalPoints(){
 }
 
 
+function currentStage(){
 
-function leaderboard(){
+    let stage = CONFIG.stages[0];
 
-    return CONFIG.classes
+    CONFIG.stages.forEach(s=>{
 
-        .map(c=>({
+        if(currentScore()>=s.points){
 
-            ...c,
+            stage=s;
 
-            score:STATE.scores[c.id]
+        }
 
-        }))
+    });
 
-        .sort(
-
-            (a,b)=>b.score-a.score
-
-        );
+    return stage;
 
 }
 
+
+function nextReward(){
+
+    return CONFIG.rewards.find(
+
+        r=>currentScore()<r.points
+
+    );
+
+}
 
 
 /*==================================================
@@ -186,7 +203,7 @@ function leaderboard(){
 
 function updateClock(){
 
-    UI.clock.textContent =
+    UI.clock.textContent=
 
         new Date().toLocaleTimeString([],{
 
@@ -198,17 +215,17 @@ function updateClock(){
 
 }
 
-
-
 /*==================================================
-    STARTUP
+    COMMIT CHANGES
 ==================================================*/
 
-loadState();
+function commit(){
 
-updateClock();
+    saveState();
 
-setInterval(updateClock,1000);
+    render();
+
+}
 
 /*==================================================
     RENDER FUNCTIONS
@@ -224,17 +241,15 @@ function renderTabs(){
 
         button.className = "classTab";
 
+        if(c.id === STATE.selectedClass){
+            button.classList.add("selected");
+        }
+
         button.textContent = c.short;
 
         button.style.borderColor = c.color;
 
-        if(c.id === STATE.selectedClass){
-
-            button.classList.add("selected");
-
-        }
-
-        button.onclick = ()=>{
+        button.addEventListener("click",()=>{
 
             STATE.selectedClass = c.id;
 
@@ -244,7 +259,7 @@ function renderTabs(){
 
             render();
 
-        };
+        });
 
         UI.classTabs.appendChild(button);
 
@@ -258,53 +273,33 @@ function renderDashboard(){
 
     const c = currentClass();
 
-    const score = currentScore();
-
     UI.className.textContent = c.name;
 
     UI.className.style.color = c.color;
 
-    UI.score.textContent = score;
+    UI.score.textContent = currentScore();
 
 
 
-    const percent = Math.min(
+    const percent =
 
-        score / CONFIG.maxPoints * 100,
+        (currentScore() / CONFIG.maxPoints) * 100;
 
-        100
+    UI.progressFill.style.width =
 
-    );
-
-    UI.progressFill.style.width = percent + "%";
+        Math.min(percent,100) + "%";
 
     UI.progressFill.style.background = c.color;
 
 
 
-    let stage = CONFIG.stages[0];
+    UI.constructionStage.textContent =
 
-    CONFIG.stages.forEach(s=>{
-
-        if(score >= s.points){
-
-            stage = s;
-
-        }
-
-    });
-
-    UI.constructionStage.textContent = stage.name;
+        currentStage().name;
 
 
 
-    const reward = CONFIG.rewards.find(
-
-        r=>score < r.points
-
-    );
-
-
+    const reward = nextReward();
 
     if(reward){
 
@@ -312,7 +307,7 @@ function renderDashboard(){
 
         UI.rewardRemaining.textContent =
 
-            `${reward.points-score} Points Remaining`;
+            `${reward.points-currentScore()} Points Remaining`;
 
     }else{
 
@@ -322,7 +317,7 @@ function renderDashboard(){
 
         UI.rewardRemaining.textContent =
 
-            "Congratulations!";
+            "Completed!";
 
     }
 
@@ -340,15 +335,21 @@ function renderLeaderboard(){
 
         const li = document.createElement("li");
 
-        li.innerHTML = `
+        li.innerHTML =
 
-            <span>
+        `
 
-                ${medals[index] || index+1} ${c.short}
+        <span>
 
-            </span>
+            ${medals[index] || index+1} ${c.short}
 
-            <strong>${c.score}</strong>
+        </span>
+
+        <strong>
+
+            ${c.score}
+
+        </strong>
 
         `;
 
@@ -364,25 +365,25 @@ function renderRewards(){
 
     UI.rewardList.innerHTML = "";
 
-    const score = currentScore();
-
-    CONFIG.rewards.forEach(r=>{
+    CONFIG.rewards.forEach(reward=>{
 
         const row = document.createElement("div");
 
         row.className =
 
-            score >= r.points
+            currentScore() >= reward.points
 
             ? "rewardItem rewardUnlocked"
 
             : "rewardItem rewardLocked";
 
-        row.innerHTML = `
+        row.innerHTML =
 
-            <span>${r.name}</span>
+        `
 
-            <strong>${r.points}</strong>
+        <span>${reward.name}</span>
+
+        <strong>${reward.points}</strong>
 
         `;
 
@@ -396,13 +397,13 @@ function renderRewards(){
 
 function renderCompetition(){
 
-    UI.totalPoints.textContent = totalPoints();
+    UI.totalPoints.textContent =
 
-    const leader = leaderboard()[0];
+        totalPoints();
 
     UI.leaderName.textContent =
 
-        leader.short;
+        leaderboard()[0].short;
 
 }
 
@@ -424,29 +425,45 @@ function render(){
 
     renderCompetition();
 
-     updateSelectedButtons();
+    updateSelectedButtons();
+
+}
+/*==================================================
+    BUTTON HELPERS
+==================================================*/
+
+function updateSelectedButtons(){
+
+    document.querySelectorAll("#controls .segmented button")
+        .forEach(button => button.classList.remove("selected"));
+
+    document
+        .getElementById(STATE.day === "gold" ? "goldButton" : "redButton")
+        .classList.add("selected");
+
+    document
+        .getElementById(STATE.schedule + "Button")
+        .classList.add("selected");
+
+    document
+        .getElementById(STATE.mode + "Button")
+        .classList.add("selected");
+
+    UI.modeIndicator.textContent =
+        STATE.mode === "auto"
+            ? "🟢 AUTO"
+            : "🟡 MANUAL";
 
 }
 
 
-
 /*==================================================
-    INITIAL DRAW
-==================================================*/
-
-render();
-window.addEventListener("beforeunload", saveState);
-/*==================================================
-    SCORE FUNCTIONS
+    SCORE
 ==================================================*/
 
 function changeScore(amount){
 
-    if(STATE.controlsLocked){
-
-        return;
-
-    }
+    if(STATE.controlsLocked) return;
 
     const id = STATE.selectedClass;
 
@@ -454,23 +471,16 @@ function changeScore(amount){
 
     STATE.scores[id] += amount;
 
-    if(STATE.scores[id] < 0){
+    STATE.scores[id] = Math.max(
+        0,
+        Math.min(CONFIG.maxPoints, STATE.scores[id])
+    );
 
-        STATE.scores[id] = 0;
-
-    }
-
-    if(STATE.scores[id] > CONFIG.maxPoints){
-
-        STATE.scores[id] = CONFIG.maxPoints;
-
-    }
-
-    saveState();
-
-    render();
+    commit();
 
 }
+
+
 /*==================================================
     POINT BUTTONS
 ==================================================*/
@@ -479,171 +489,113 @@ document.querySelectorAll(".pointButton").forEach(button=>{
 
     button.addEventListener("click",()=>{
 
-        changeScore(
-
-            Number(button.dataset.points)
-
-        );
+        changeScore(Number(button.dataset.points));
 
     });
 
 });
+
+
 /*==================================================
     UNDO
 ==================================================*/
 
-document.getElementById("undoButton")
-
+document
+.getElementById("undoButton")
 .addEventListener("click",()=>{
 
-    if(STATE.lastChange===null){
+    if(STATE.lastChange===null) return;
 
-        return;
-
-    }
-
-    changeScore(
-
-        -STATE.lastChange
-
-    );
+    changeScore(-STATE.lastChange);
 
     STATE.lastChange=null;
 
 });
-/*==================================================
-    BUTTON HELPERS
-==================================================*/
 
-function updateSelectedButtons(){
 
-    document.querySelectorAll("#controls button").forEach(button=>{
-
-        button.classList.remove("selected");
-
-    });
-
-    document.getElementById(
-        STATE.day === "gold"
-            ? "goldButton"
-            : "redButton"
-    ).classList.add("selected");
-
-    document.getElementById(
-        STATE.schedule + "Button"
-    ).classList.add("selected");
-
-    document.getElementById(
-        STATE.mode + "Button"
-    ).classList.add("selected");
-
-}
 /*==================================================
     DAY BUTTONS
 ==================================================*/
 
-document.getElementById("goldButton")
-
+document
+.getElementById("goldButton")
 .addEventListener("click",()=>{
 
     STATE.day="gold";
-
     STATE.selectedClass=0;
 
-    saveState();
-
-    render();
+    commit();
 
 });
 
 
-
-document.getElementById("redButton")
-
+document
+.getElementById("redButton")
 .addEventListener("click",()=>{
 
     STATE.day="red";
-
     STATE.selectedClass=3;
 
-    saveState();
-
-    render();
+    commit();
 
 });
+
+
 /*==================================================
-    SCHEDULE BUTTONS
+    SCHEDULE
 ==================================================*/
 
-document.getElementById("regularButton")
+["regular","wednesday","dwsd"].forEach(schedule=>{
 
-.addEventListener("click",()=>{
+    document
+    .getElementById(schedule+"Button")
+    .addEventListener("click",()=>{
 
-    STATE.schedule="regular";
+        STATE.schedule=schedule;
 
-    saveState();
+        commit();
 
-    render();
-
-});
-
-
-
-document.getElementById("wednesdayButton")
-
-.addEventListener("click",()=>{
-
-    STATE.schedule="wednesday";
-
-    saveState();
-
-    render();
+    });
 
 });
 
 
-
-document.getElementById("dwsdButton")
-
-.addEventListener("click",()=>{
-
-    STATE.schedule="dwsd";
-
-    saveState();
-
-    render();
-
-});
 /*==================================================
-    MODE BUTTONS
+    MODE
 ==================================================*/
 
-document.getElementById("autoButton")
-
+document
+.getElementById("autoButton")
 .addEventListener("click",()=>{
 
     STATE.mode="auto";
 
-    UI.modeIndicator.textContent="🟢 AUTO";
-
-    saveState();
-
-    render();
+    commit();
 
 });
 
 
-
-document.getElementById("manualButton")
-
+document
+.getElementById("manualButton")
 .addEventListener("click",()=>{
 
     STATE.mode="manual";
 
-    UI.modeIndicator.textContent="🟡 MANUAL";
-
-    saveState();
-
-    render();
+    commit();
 
 });
+
+
+/*==================================================
+    INITIALIZE
+==================================================*/
+
+window.addEventListener("beforeunload", saveState);
+
+loadState();
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+render();
