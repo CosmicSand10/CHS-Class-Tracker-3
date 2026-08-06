@@ -67,6 +67,17 @@ const UI = {
 
     modeIndicator: document.getElementById("modeIndicator")
 
+    teacherOverlay: document.getElementById("teacherOverlay"),
+
+    teacherButton: document.getElementById("teacherButton"),
+
+    closeTeacher: document.getElementById("closeTeacher"),
+
+    monthlyReset: document.getElementById("monthlyReset"),
+
+    lockButton: document.getElementById("lockButton")
+
+
 };
 
 
@@ -585,6 +596,61 @@ document
 
 });
 
+/*==================================================
+    TEACHER MENU
+==================================================*/
+
+UI.teacherButton.addEventListener("click",()=>{
+
+    UI.teacherOverlay.classList.remove("hidden");
+
+});
+
+
+UI.closeTeacher.addEventListener("click",()=>{
+
+    UI.teacherOverlay.classList.add("hidden");
+
+});
+/*==================================================
+    MONTHLY RESET
+==================================================*/
+
+UI.monthlyReset.addEventListener("click",()=>{
+
+    if(!confirm("Reset all classes for a new month?")){
+
+        return;
+
+    }
+
+    STATE.scores = STATE.scores.map(()=>0);
+
+    STATE.lastChange = null;
+
+    commit();
+
+});
+
+/*==================================================
+    LOCK CONTROLS
+==================================================*/
+
+UI.lockButton.addEventListener("click",()=>{
+
+    STATE.controlsLocked = !STATE.controlsLocked;
+
+    UI.lockButton.textContent =
+
+        STATE.controlsLocked
+
+        ? "🔓 Unlock Controls"
+
+        : "🔒 Lock Controls";
+
+    commit();
+
+});
 
 /*==================================================
     INITIALIZE
