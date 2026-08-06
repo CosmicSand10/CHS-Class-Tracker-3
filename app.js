@@ -424,6 +424,8 @@ function render(){
 
     renderCompetition();
 
+     updateSelectedButtons();
+
 }
 
 
@@ -507,5 +509,141 @@ document.getElementById("undoButton")
     );
 
     STATE.lastChange=null;
+
+});
+/*==================================================
+    BUTTON HELPERS
+==================================================*/
+
+function updateSelectedButtons(){
+
+    document.querySelectorAll("#controls button").forEach(button=>{
+
+        button.classList.remove("selected");
+
+    });
+
+    document.getElementById(
+        STATE.day === "gold"
+            ? "goldButton"
+            : "redButton"
+    ).classList.add("selected");
+
+    document.getElementById(
+        STATE.schedule + "Button"
+    ).classList.add("selected");
+
+    document.getElementById(
+        STATE.mode + "Button"
+    ).classList.add("selected");
+
+}
+/*==================================================
+    DAY BUTTONS
+==================================================*/
+
+document.getElementById("goldButton")
+
+.addEventListener("click",()=>{
+
+    STATE.day="gold";
+
+    STATE.selectedClass=0;
+
+    saveState();
+
+    render();
+
+});
+
+
+
+document.getElementById("redButton")
+
+.addEventListener("click",()=>{
+
+    STATE.day="red";
+
+    STATE.selectedClass=3;
+
+    saveState();
+
+    render();
+
+});
+/*==================================================
+    SCHEDULE BUTTONS
+==================================================*/
+
+document.getElementById("regularButton")
+
+.addEventListener("click",()=>{
+
+    STATE.schedule="regular";
+
+    saveState();
+
+    render();
+
+});
+
+
+
+document.getElementById("wednesdayButton")
+
+.addEventListener("click",()=>{
+
+    STATE.schedule="wednesday";
+
+    saveState();
+
+    render();
+
+});
+
+
+
+document.getElementById("dwsdButton")
+
+.addEventListener("click",()=>{
+
+    STATE.schedule="dwsd";
+
+    saveState();
+
+    render();
+
+});
+/*==================================================
+    MODE BUTTONS
+==================================================*/
+
+document.getElementById("autoButton")
+
+.addEventListener("click",()=>{
+
+    STATE.mode="auto";
+
+    UI.modeIndicator.textContent="🟢 AUTO";
+
+    saveState();
+
+    render();
+
+});
+
+
+
+document.getElementById("manualButton")
+
+.addEventListener("click",()=>{
+
+    STATE.mode="manual";
+
+    UI.modeIndicator.textContent="🟡 MANUAL";
+
+    saveState();
+
+    render();
 
 });
