@@ -1172,3 +1172,51 @@ aside{
     transform:translateY(-3px);
 
 }
+
+.hidden{
+
+    display:none !important;
+
+}
+
+#statusView{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    min-height:500px;
+
+}
+
+#statusIcon{
+
+    font-size:5rem;
+
+    margin-bottom:20px;
+
+}
+
+#statusTitle{
+
+    font-size:2.3rem;
+
+    color:var(--cyan);
+
+    margin-bottom:10px;
+
+}
+
+#statusMessage{
+
+    font-size:1.2rem;
+
+    opacity:.85;
+
+}
