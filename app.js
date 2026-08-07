@@ -874,6 +874,8 @@ updateClock();
 
 updateAutomaticClass();
 
+initializeTestButtons();
+
 setInterval(updateClock,1000);
 
 setInterval(updateAutomaticClass,30000);
