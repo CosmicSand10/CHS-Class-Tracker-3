@@ -489,26 +489,13 @@ function render(){
 
     renderTabs();
 
+    renderDashboard();
+
     renderLeaderboard();
 
+    renderRewards();
+
     renderCompetition();
-
-    if(STATE.currentBlock === "class"){
-
-        UI.classView.classList.remove("hidden");
-        UI.statusView.classList.add("hidden");
-
-        renderDashboard();
-        renderRewards();
-
-    }else{
-
-        UI.classView.classList.add("hidden");
-        UI.statusView.classList.remove("hidden");
-
-        renderStatusScreen();
-
-    }
 
     updateSelectedButtons();
 
@@ -782,53 +769,29 @@ function getCurrentBlock(){
 
 function updateAutomaticClass(){
 
-    if(STATE.mode !== "auto") return;
+    if(STATE.mode !== "auto"){
+        return;
+    }
 
     const block = getCurrentBlock();
 
     if(!block){
-
-        if(STATE.currentBlock !== "before"){
-
-            STATE.currentBlock = "before";
-
-            render();
-
-        }
-
         return;
-
     }
 
-    if(block.classId !== undefined){
-
-        if(
-            STATE.currentBlock !== "class" ||
-            STATE.selectedClass !== block.classId
-        ){
-
-            STATE.currentBlock = "class";
-
-            STATE.selectedClass = block.classId;
-
-            render();
-
-        }
-
+    if(block.classId === undefined){
         return;
-
     }
 
-    if(STATE.currentBlock !== block.type.toLowerCase()){
+    if(STATE.selectedClass !== block.classId){
 
-        STATE.currentBlock = block.type.toLowerCase();
+        STATE.selectedClass = block.classId;
 
-        render();
+        commit();
 
     }
 
 }
-
 /*==================================================
     TEST MODE
 ==================================================*/
@@ -873,8 +836,6 @@ loadState();
 updateClock();
 
 updateAutomaticClass();
-
-initializeTestButtons();
 
 setInterval(updateClock,1000);
 
