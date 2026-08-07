@@ -86,6 +86,10 @@ const UI = {
 
     lockButton: document.getElementById("lockButton")
 
+    testButtons: document.querySelectorAll(".testStatus"),
+
+
+
 };
 
 
