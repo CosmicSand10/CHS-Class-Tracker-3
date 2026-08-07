@@ -828,6 +828,40 @@ function updateAutomaticClass(){
     }
 
 }
+
+/*==================================================
+    TEST MODE
+==================================================*/
+
+function initializeTestButtons(){
+
+    UI.testButtons.forEach(button=>{
+
+        button.addEventListener("click",()=>{
+
+            const status = button.dataset.status;
+
+            if(status === "auto"){
+
+                STATE.mode = "auto";
+
+                updateAutomaticClass();
+
+                return;
+
+            }
+
+            STATE.mode = "manual";
+
+            STATE.currentBlock = status;
+
+            render();
+
+        });
+
+    });
+
+}
 /*==================================================
     INITIALIZE
 ==================================================*/
