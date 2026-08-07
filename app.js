@@ -226,15 +226,14 @@ function nextReward(){
 
 function updateClock(){
 
-    UI.clock.textContent=
+    const now = new Date();
 
-        new Date().toLocaleTimeString([],{
+    console.log(now);
 
-            hour:"numeric",
-
-            minute:"2-digit"
-
-        });
+    UI.clock.textContent = now.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit"
+    });
 
 }
 
