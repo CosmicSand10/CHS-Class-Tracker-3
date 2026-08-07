@@ -83,10 +83,6 @@ const UI = {
     closeTeacher: document.getElementById("closeTeacher"),
 
     monthlyReset: document.getElementById("monthlyReset"),
-    
-    modeIndicator: document.getElementById("modeIndicator"),
-
-    testButtons: document.querySelectorAll(".testStatus"),
 
     lockButton: document.getElementById("lockButton")
 };
