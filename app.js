@@ -761,6 +761,10 @@ function getCurrentBlock(){
     AUTO SCHEDULER
 ==================================================*/
 
+/*==================================================
+    AUTO SCHEDULER
+==================================================*/
+
 function updateAutomaticClass(){
 
     if(STATE.mode !== "auto"){
