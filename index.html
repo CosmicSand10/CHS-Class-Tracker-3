@@ -446,6 +446,92 @@ TEACHER MENU
     </div>
 
 </div>
+
+    <!-- ==========================================
+FIRST RUN SETUP
+========================================== -->
+
+<div id="setupOverlay" class="hidden">
+
+    <div id="setupPanel">
+
+        <div id="setupHeader">
+
+            <div class="setupIcon">
+                ⚙️
+            </div>
+
+            <h2>Welcome to CHS Class Tracker</h2>
+
+            <p>
+                Let's set up your classroom dashboard.
+            </p>
+
+        </div>
+
+
+        <!-- SCHOOL / TEACHER -->
+
+        <div class="setupSection">
+
+            <h3>👤 Teacher Information</h3>
+
+            <label for="setupTeacherName">
+                Teacher Name
+            </label>
+
+            <input
+                id="setupTeacherName"
+                type="text"
+                placeholder="Enter your name"
+            >
+
+        </div>
+
+
+        <!-- CLASSES -->
+
+        <div class="setupSection">
+
+            <h3>📚 Your Classes</h3>
+
+            <p class="setupHelp">
+                These are your current CHS classes. You can change
+                the names or short labels if needed.
+            </p>
+
+            <div id="setupClasses"></div>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <div class="setupSection">
+
+            <h3>🖥️ Dashboard</h3>
+
+            <label for="setupDashboardTitle">
+                Dashboard Title
+            </label>
+
+            <input
+                id="setupDashboardTitle"
+                type="text"
+            >
+
+        </div>
+
+
+        <button id="finishSetupButton">
+
+            🚀 Save & Launch Dashboard
+
+        </button>
+
+    </div>
+
+</div>
     
 <script src="config.js"></script>
 <script src="app.js"></script>
