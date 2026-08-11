@@ -1,16 +1,60 @@
 /*==================================================
-    CTE DASHBOARD PRO
+    CHS CLASS TRACKER 3
     CONFIGURATION
 ==================================================*/
 
 const CONFIG = {
 
     /*==============================================
+        School Information
+        --------------------------------------------
+        These values will eventually be editable
+        through the teacher configuration screen.
+    ==============================================*/
+
+    school: {
+
+        name: "Chico High School",
+
+        shortName: "CHS",
+
+        department: "CTE Engineering & Architecture"
+
+    },
+
+
+    /*==============================================
+        Teacher Information
+        --------------------------------------------
+        This will eventually be configurable for
+        each teacher using the application.
+    ==============================================*/
+
+    teacher: {
+
+        name: "Gavin Cockrell"
+
+    },
+
+
+    /*==============================================
+        Dashboard Information
+    ==============================================*/
+
+    dashboard: {
+
+        title: "CTE CLASS CHAMPIONSHIP",
+
+        subtitle: "Engineering • Architecture • Chico High School"
+
+    },
+
+
+    /*==============================================
         Dashboard Settings
     ==============================================*/
 
     maxPoints: 300,
-
 
 
     /*==============================================
@@ -76,7 +120,6 @@ const CONFIG = {
     ],
 
 
-
     /*==============================================
         Reward Milestones
     ==============================================*/
@@ -104,7 +147,6 @@ const CONFIG = {
         }
 
     ],
-
 
 
     /*==============================================
@@ -156,7 +198,6 @@ const CONFIG = {
     ],
 
 
-
     /*==============================================
         Bell Schedules
     ==============================================*/
@@ -184,7 +225,6 @@ const CONFIG = {
         },
 
 
-
         wednesday: {
 
             gold: [
@@ -204,7 +244,6 @@ const CONFIG = {
             ]
 
         },
-
 
 
         dwsd: {
