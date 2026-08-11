@@ -293,6 +293,47 @@ function renderStatusScreen(){
     UI.statusMessage.textContent = screen.message;
 
 }
+
+/*==================================================
+    CONFIGURATION DISPLAY
+==================================================*/
+
+function renderConfiguration(){
+
+    document.title =
+        CONFIG.dashboard.title;
+
+    const pageTitle =
+        document.getElementById("pageTitle");
+
+    const dashboardTitle =
+        document.getElementById("dashboardTitle");
+
+    const dashboardSubtitle =
+        document.getElementById("dashboardSubtitle");
+
+    if(pageTitle){
+
+        pageTitle.textContent =
+            CONFIG.dashboard.title;
+
+    }
+
+    if(dashboardTitle){
+
+        dashboardTitle.textContent =
+            CONFIG.dashboard.title;
+
+    }
+
+    if(dashboardSubtitle){
+
+        dashboardSubtitle.textContent =
+            CONFIG.dashboard.subtitle;
+
+    }
+
+}
 /*==================================================
     RENDER FUNCTIONS
 ==================================================*/
@@ -480,6 +521,8 @@ function renderCompetition(){
 ==================================================*/
 
 function render(){
+
+    renderConfiguration();
 
     renderTabs();
 
