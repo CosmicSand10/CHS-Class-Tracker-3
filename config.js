@@ -43,7 +43,7 @@ const CONFIG = {
 
     dashboard: {
 
-        title: "CTE CLASS CHAMPIONSHIP",
+        title: "CHS CLASS TRACKER",
 
         subtitle: "Engineering • Architecture • Chico High School"
 
