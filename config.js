@@ -67,8 +67,8 @@ const CONFIG = {
             id: 0,
             day: "gold",
             period: "Gold 1",
-            short: "TEST",
-            name: "CONFIG WORKS",
+            short: "ENG 2",
+            name: "Engineering 2",
             room: "IT-1",
             color: "#18D8FF"
         },
