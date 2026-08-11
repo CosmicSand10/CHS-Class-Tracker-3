@@ -6,17 +6,25 @@
 const CONFIG = {
 
     /*==============================================
-        School Information
-        --------------------------------------------
-        These values will eventually be editable
-        through the teacher configuration screen.
+        SCHOOL INFORMATION
     ==============================================*/
 
     school: {
 
         name: "Chico High School",
 
-        shortName: "CHS",
+        shortName: "CHS"
+
+    },
+
+
+    /*==============================================
+        TEACHER INFORMATION
+    ==============================================*/
+
+    teacher: {
+
+        name: "Gavin Cockrell",
 
         department: "CTE Engineering & Architecture"
 
@@ -24,21 +32,7 @@ const CONFIG = {
 
 
     /*==============================================
-        Teacher Information
-        --------------------------------------------
-        This will eventually be configurable for
-        each teacher using the application.
-    ==============================================*/
-
-    teacher: {
-
-        name: "Gavin Cockrell"
-
-    },
-
-
-    /*==============================================
-        Dashboard Information
+        DASHBOARD INFORMATION
     ==============================================*/
 
     dashboard: {
@@ -51,7 +45,7 @@ const CONFIG = {
 
 
     /*==============================================
-        Dashboard Settings
+        DASHBOARD SETTINGS
     ==============================================*/
 
     maxPoints: 300,
