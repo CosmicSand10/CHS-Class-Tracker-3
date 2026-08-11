@@ -44,6 +44,8 @@ const UI = {
 
     className: document.getElementById("className"),
 
+    classRoom: document.getElementById("classRoom"),
+
     score: document.getElementById("score"),
 
     progressFill: document.getElementById("progressFill"),
@@ -383,6 +385,8 @@ function renderDashboard(){
     UI.className.textContent = c.name;
 
     UI.className.style.color = c.color;
+
+    UI.classRoom.textContent = c.room;
 
     UI.score.textContent = currentScore();
 
