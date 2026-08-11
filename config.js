@@ -69,6 +69,7 @@ const CONFIG = {
             period: "Gold 1",
             short: "ENG 2",
             name: "Engineering 2",
+            room: "",
             color: "#18D8FF"
         },
 
@@ -78,6 +79,7 @@ const CONFIG = {
             period: "Gold 2",
             short: "ENG 3-4",
             name: "Engineering 3-4",
+            room: "",
             color: "#00E676"
         },
 
@@ -87,6 +89,7 @@ const CONFIG = {
             period: "Gold 4",
             short: "ARCH 1",
             name: "Architecture 1",
+            room: "",
             color: "#FFD54F"
         },
 
@@ -96,6 +99,7 @@ const CONFIG = {
             period: "Red 1",
             short: "ENG 1A",
             name: "Engineering 1A",
+            room: "",
             color: "#FF7043"
         },
 
@@ -105,6 +109,7 @@ const CONFIG = {
             period: "Red 2",
             short: "ENG 1B",
             name: "Engineering 1B",
+            room: "",
             color: "#AB47BC"
         },
 
@@ -114,6 +119,7 @@ const CONFIG = {
             period: "Red 3",
             short: "ARCH 2-4",
             name: "Architecture 2-4",
+            room: "",
             color: "#42A5F5"
         }
 
