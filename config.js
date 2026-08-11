@@ -45,7 +45,7 @@ const CONFIG = {
 
         title: "CHS CLASS TRACKER",
 
-        subtitle: "Engineering • Architecture • Chico High School"
+        subtitle: "Chico High School • CTE"
 
     },
 
