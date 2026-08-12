@@ -9,6 +9,98 @@
 
 const STORAGE_KEY = "cte-dashboard-pro-v1";
 
+/*==================================================
+    CONFIGURATION STORAGE
+==================================================*/
+
+const CONFIG_STORAGE_KEY = "chs-class-tracker-config-v1";
+
+
+const DEFAULT_CONFIG = JSON.parse(
+    JSON.stringify(CONFIG)
+);
+
+
+function loadConfiguration(){
+
+    const saved =
+        localStorage.getItem(CONFIG_STORAGE_KEY);
+
+    if(!saved){
+
+        return false;
+
+    }
+
+    try{
+
+        const data = JSON.parse(saved);
+
+        if(data.school){
+
+            CONFIG.school = data.school;
+
+        }
+
+        if(data.teacher){
+
+            CONFIG.teacher = data.teacher;
+
+        }
+
+        if(data.dashboard){
+
+            CONFIG.dashboard = data.dashboard;
+
+        }
+
+        if(data.classes){
+
+            CONFIG.classes = data.classes;
+
+        }
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Unable to load saved configuration:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+function saveConfiguration(){
+
+    const data = {
+
+        school: CONFIG.school,
+
+        teacher: CONFIG.teacher,
+
+        dashboard: CONFIG.dashboard,
+
+        classes: CONFIG.classes
+
+    };
+
+    localStorage.setItem(
+
+        CONFIG_STORAGE_KEY,
+
+        JSON.stringify(data)
+
+    );
+
+}
 
 /*==================================================
     APPLICATION STATE
@@ -86,10 +178,157 @@ const UI = {
 
     monthlyReset: document.getElementById("monthlyReset"),
 
-    lockButton: document.getElementById("lockButton")
+    lockButton: document.getElementById("lockButton"),
+
+    setupOverlay:
+        document.getElementById("setupOverlay"),
+
+    setupTeacherName:
+        document.getElementById("setupTeacherName"),
+
+    setupDashboardTitle:
+        document.getElementById("setupDashboardTitle"),
+
+    setupClasses:
+        document.getElementById("setupClasses"),
+
+    finishSetupButton:
+        document.getElementById("finishSetupButton")
+    
 };
 
+/*==================================================
+    FIRST RUN SETUP
+==================================================*/
 
+function renderSetup(){
+
+    UI.setupTeacherName.value =
+        CONFIG.teacher.name || "";
+
+    UI.setupDashboardTitle.value =
+        CONFIG.dashboard.title || "";
+
+    UI.setupClasses.innerHTML = "";
+
+    CONFIG.classes.forEach((c, index) => {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "setupClassRow";
+
+        row.innerHTML = `
+
+            <div class="setupClassInfo">
+
+                <strong>
+                    ${c.period}
+                </strong>
+
+                <span>
+                    ${c.day.toUpperCase()}
+                </span>
+
+            </div>
+
+            <input
+                type="text"
+                class="setupClassName"
+                data-index="${index}"
+                value="${c.name}"
+                placeholder="Class name"
+            >
+
+            <input
+                type="text"
+                class="setupClassShort"
+                data-index="${index}"
+                value="${c.short}"
+                placeholder="Short name"
+            >
+
+        `;
+
+        UI.setupClasses.appendChild(row);
+
+    });
+
+}
+
+
+function openSetup(){
+
+    renderSetup();
+
+    UI.setupOverlay.classList.remove("hidden");
+
+}
+
+
+function closeSetup(){
+
+    UI.setupOverlay.classList.add("hidden");
+
+}
+
+
+function finishSetup(){
+
+    CONFIG.teacher.name =
+        UI.setupTeacherName.value.trim()
+        || DEFAULT_CONFIG.teacher.name;
+
+
+    CONFIG.dashboard.title =
+        UI.setupDashboardTitle.value.trim()
+        || DEFAULT_CONFIG.dashboard.title;
+
+
+    const classNames =
+        document.querySelectorAll(
+            ".setupClassName"
+        );
+
+
+    const classShorts =
+        document.querySelectorAll(
+            ".setupClassShort"
+        );
+
+
+    classNames.forEach(input => {
+
+        const index =
+            Number(input.dataset.index);
+
+        CONFIG.classes[index].name =
+            input.value.trim()
+            || DEFAULT_CONFIG.classes[index].name;
+
+    });
+
+
+    classShorts.forEach(input => {
+
+        const index =
+            Number(input.dataset.index);
+
+        CONFIG.classes[index].short =
+            input.value.trim()
+            || DEFAULT_CONFIG.classes[index].short;
+
+    });
+
+
+    saveConfiguration();
+
+    closeSetup();
+
+    render();
+
+}
 /*==================================================
     STORAGE
 ==================================================*/
@@ -698,6 +937,12 @@ document
 
 });
 
+
+UI.finishSetupButton.addEventListener(
+    "click",
+    finishSetup
+);
+
 /*==================================================
     TEACHER MENU
 ==================================================*/
@@ -804,9 +1049,6 @@ function getCurrentBlock(){
     return null;
 
 }
-/*==================================================
-    AUTO SCHEDULER
-==================================================*/
 
 /*==================================================
     AUTO SCHEDULER
@@ -885,5 +1127,20 @@ updateAutomaticClass();
 setInterval(updateClock,1000);
 
 setInterval(updateAutomaticClass,30000);
+
+/*==================================================
+    APPLICATION STARTUP
+==================================================*/
+
+const hasSavedConfiguration =
+    loadConfiguration();
+
+
+if(!hasSavedConfiguration){
+
+    openSetup();
+
+}
+
 
 render();
